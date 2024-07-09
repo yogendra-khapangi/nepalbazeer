@@ -1,8 +1,17 @@
 from django.shortcuts import render,HttpResponse
+from math import ceil
+from .models import Product
+
 
 # Create your views here.
 def index(request):
-    return render(request,"core/index.html")
+    products = Product.objects.all()
+    n=len(products)
+    nSlide=n//4+ceil((n//4)-(n//4))
+    params={'product':products,'no_of_slide':nSlide,'range':range(1,nSlide)}
+    return render(request,"core/index.html",params)
+
+
 
 def about(request):
     return render(request,"core/about.html")

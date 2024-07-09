@@ -1,36 +1,100 @@
-{% extends "core/basic.html" %}
+{% extends 'core/basic.html' %}
+{% block css %}
+<style>
+          .col-md-3
+          {
+          display: inline-block;
+          margin-left:-4px;
+          }
 
+          .carousel-indicators .active {
+          background-color: blue;
+            }
 
-{% block title %}Home{% endblock title %}
+          .col-md-3 img{
+
+          width: 255px;
+          height: 355px;
+          }
+
+          body .carousel-indicator li{
+          background-color: blue;
+          }
+
+          body .carousel-indicators{
+          bottom: 0;
+          }
+
+          body .carousel-control-prev-icon,
+          body .carousel-control-next-icon{
+          background-color: blue;
+          }
+           body .no-padding{
+           padding-left: 0;
+           padding-right: 0;
+           }
+          </style>
+ {% endblock %}
 
 {% block body %}
+{% load static %}
 <div class="container">
-  <div id="carouselExampleIndicators" class="carousel slide">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="https://assets-us-01.kc-usercontent.com:443/8d20758c-d74c-4f59-ae04-ee928c0816b7/6e38c039-ad00-47f3-a584-26252827655a/daylight.jpg" class="d-block w-100 h-80" alt="...">
-        </div>
-        <div class="carousel-item">
-          <img src="https://assets-us-01.kc-usercontent.com:443/8d20758c-d74c-4f59-ae04-ee928c0816b7/6e38c039-ad00-47f3-a584-26252827655a/daylight.jpg" class="d-block w-100 h-80" alt="...">
-        </div>
-        <div class="carousel-item">
-          <img src="https://assets-us-01.kc-usercontent.com:443/8d20758c-d74c-4f59-ae04-ee928c0816b7/6e38c039-ad00-47f3-a584-26252827655a/daylight.jpg" class="d-block w-100 h-80" alt="...">
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-</div>
+    <h1>Men Fashion</h1>
+<div id="demo" class="carousel slide my-3" data-ride="carousel">
+    <ul class="carousel-indicators">
+      <li data-target="#demo" data-slide-to="0" class="active"></li>
 
-{% endblock body %}
+       {% for i in range %}
+      <li data-target="#demo" data-slide-to="{{i}}" ></li>
+      {% endfor %}
+    </ul>
+
+    <!--Slideshow starts here -->
+    <div class="container carousel-inner no-padding">
+
+      <div class="carousel-item active">
+        <div class="col-xs-3 col-sm-3 col-md-3 ">
+          <div class="card" style="width: 18rem;">
+            <img src='media/{{product.0.image}}' class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{product.0.product_name}}</h5>
+                <p class="card-text">{{product.0.desc|slice:"0:53"}}...</p>
+                <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
+          </div>
+       </div>
+
+
+        {% for i in product|slice:"1:"%}
+        <div class="col-xs-3 col-sm-3 col-md-3">
+          <div class="card" style="width: 18rem;">
+            <img src='/media/{{i.image}}' class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{i.product_name}}</h5>
+              <p class="card-text" >{{i.desc|slice:"0:53"}}...</p>
+              <a href="#" class="btn btn-primary">Add To Cart</a>
+            </div>
+          </div>
+        </div>
+        {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last %}
+      </div><div class="carousel-item">
+        {% endif %}
+
+        {% endfor %}
+    </div>
+
+
+
+</div>
+</div>
+    <!-- left and right controls for the slide -->
+    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#demo" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </a>
+
+
+ {% endblock %}
+
