@@ -5,10 +5,19 @@ from .models import Product
 
 # Create your views here.
 def index(request):
-    products = Product.objects.all()
-    n=len(products)
-    nSlide=n//4+ceil((n//4)-(n//4))
-    params={'product':products,'no_of_slide':nSlide,'range':range(1,nSlide)}
+    # products = Product.objects.all()
+    # n=len(products)
+    # nSlide=n//4+ceil((n//4)-(n//4))
+    # params={'product':products,'no_of_slide':nSlide,'range':range(1,nSlide)}
+    allProds = []
+    catprods = Product.objects.values('category', 'id')
+    cats = {item['category'] for item in catprods}
+    for cat in cats:
+        prod = Product.objects.filter(category=cat)
+        n = len(prod)
+        nSlides = n // 4 + ceil((n / 4) - (n /4))
+        allProds.append([prod, range(1, nSlides), nSlides])
+        params = {'allProds': allProds}
     return render(request,"core/index.html",params)
 
 
