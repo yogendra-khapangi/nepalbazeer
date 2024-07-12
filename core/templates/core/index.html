@@ -48,8 +48,8 @@
 {% load static %}
 <div class="container">
 
-  {% for  product, range, nSlide in allProds %}
-  <h5 class="my-4">Flash Sale On {{product.0.category}} - Recommended Items</h5>
+  {% for product, range, nSlide in allProds %}
+  <h5 class="my-4 ">Flash Sale On {{product.0.category}} - Recommended Items</h5>
   <div id="demo{{forloop.counter}}" class="carousel slide my-3" data-ride="carousel">
     <ul class="carousel-indicators">
       <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
@@ -69,7 +69,7 @@
             <div class="card-body">
               <h5 class="card-title">{{product.0.product_name}}</h5>
               <p class="card-text">{{product.0.desc|slice:"0:53"}}...</p>
-              <a href="#" class="btn btn-primary">Add to Cart</a>
+              <button id="pr{{product.0.id}}" class="btn btn-primary cart">Add to Cart</button>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@
             <div class="card-body">
               <h5 class="card-title">{{i.product_name}}</h5>
               <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
-              <a href="#" class="btn btn-primary">Add To Cart</a>
+              <button id="pr{{i.id}}" class="btn btn-primary cart">Add To Cart</button>
             </div>
           </div>
         </div>
@@ -107,3 +107,32 @@
 </div>
 
 {% endblock %}
+
+
+
+{% block js %}
+<script>
+
+  console.log('working');
+  if (localStorage.getItem('cart') == null) {
+    var cart = {};
+  }
+  else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+  }
+  $('.cart').click(function () {
+    console.log('clicked');
+    var idstr = this.id.toString();
+    console.log(idstr);
+    if (cart[idstr] != undefined) {
+      cart[idstr] = cart[idstr] + 1;
+    }
+    else {
+      cart[idstr] = 1;
+    }
+    console.log(cart);
+    localStorage.setItem('cart', JSON.stringify(cart));
+  });
+
+</script>
+{% endblock js %}
