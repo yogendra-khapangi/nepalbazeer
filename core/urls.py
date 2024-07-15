@@ -9,6 +9,6 @@ urlpatterns = [
     path('contact/', contact),
     path('traker/', traker),
     path('search/',search ),
-    path('productview/', productview),
+    path('productview/<int:myid>', productview),
     path('checkout/', checkout),
 ]
