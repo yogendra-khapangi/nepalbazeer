@@ -111,6 +111,8 @@
 
 {% block js %}
 <script>
+
+
   // Find out the cart items from localStorage
   if (localStorage.getItem('cart') == null) {
       var cart = {};
@@ -119,6 +121,8 @@
       document.getElementById('cart').innerHTML = Object.keys(cart).length;
       updateCart(cart);
   }
+
+
   // If the add to cart button is clicked, add/increment the item
   $('.cart').click(function() {
       var idstr = this.id.toString();
@@ -130,6 +134,8 @@
       updateCart(cart);
       
   });
+
+
   //Add Popover to cart
   $('#popcart').popover();
   updatePopover(cart);
@@ -149,15 +155,21 @@
       document.getElementById('popcart').setAttribute('data-content', popStr);
       $('#popcart').popover('show');
   }
+  
   function updateCart(cart) {
+    var sum=0;
+
       for (var item in cart) {
+        sum=sum+cart[item];
           document.getElementById('div' + item).innerHTML = "<button id='minus" + item + "' class='btn btn-primary minus'>-</button> <span id='val" + item + "''>" + cart[item] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
       }
       localStorage.setItem('cart', JSON.stringify(cart));
-      document.getElementById('cart').innerHTML = Object.keys(cart).length;
+      document.getElementById('cart').innerHTML = sum;
       console.log(cart);
       updatePopover(cart);
   }
+
+
   // If plus or minus button is clicked, change the cart as well as the display value
   $('.divpr').on("click", "button.minus", function() {
       a = this.id.slice(7, );
